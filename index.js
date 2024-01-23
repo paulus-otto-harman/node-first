@@ -1,22 +1,15 @@
-const http = require('http');
-const fs = require('fs');
+const express = require("express");
+const favicon = require("serve-favicon");
+const path = require("path");
 
-http.createServer(function (req, res) {
-  if (req.url==='/favicon.ico') {
-    fs.readFile('./favicon.ico', function(err, data) {
-      if(err) {
-        res.writeHead(404);
-        res.write('Error : favicon.ico not found')
-      } else {
-        res.writeHead(200, {
-          "Content-Type": 'image/x-icon',
-        });
-        res.write(data);
-      }
-      res.end();
-    })
-  } else {
-    res.write("Halo Bro!");
-    res.end();
-  }
-}).listen(3000, ()=> console.log('Server is running on port 3000'));
+const app = express();
+const port = 3000;
+app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
+
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
+
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`);
+});
